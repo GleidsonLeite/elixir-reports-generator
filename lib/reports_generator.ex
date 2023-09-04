@@ -1,18 +1,14 @@
 defmodule ReportsGenerator do
-  @moduledoc """
-  Documentation for `ReportsGenerator`.
-  """
+  def build(filename) do
+    "reports/#{filename}"
+    |> File.stream!()
+    |> Enum.map(fn line -> parse_line(line) end)
+  end
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ReportsGenerator.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  defp parse_line(line) do
+    line
+    |> String.trim()
+    |> String.split(",")
+    |> List.update_at(2, &String.to_integer/1)
   end
 end
